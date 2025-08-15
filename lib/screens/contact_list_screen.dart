@@ -123,7 +123,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
                 autofocus: true,
                 style: const TextStyle(color: Colors.black87),
                 decoration: InputDecoration(
-                  hintText: 'Rechercher par numéro...',
+                  hintText: 'Rechercher',
                   hintStyle: const TextStyle(color: Colors.grey),
                   border: InputBorder.none,
                 ),
