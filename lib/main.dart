@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Kytmo - Adress',
+      title: 'Kytmo - Contacts',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const ContactListScreen(),
     );
