@@ -130,7 +130,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
                 keyboardType: TextInputType.phone,
               )
             : const Text(
-                'KYTMO - Adress',
+                'KYTMO - Contacts',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.5,
