@@ -24,6 +24,14 @@ class _ContactFormScreenState extends State<ContactFormScreen> {
     _emailController = TextEditingController(text: widget.contact?.email ?? '');
   }
 
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _phoneController.dispose();
+    _emailController.dispose();
+    super.dispose();
+  }
+
   void _saveContact() async {
     if (_formKey.currentState!.validate()) {
       final contact = Contact(
@@ -47,35 +55,77 @@ class _ContactFormScreenState extends State<ContactFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.contact == null ? 'Ajouter un contact' : 'Modifier le contact'),
+        title: Text(
+          widget.contact == null ? 'Ajouter un contact' : 'Modifier le contact',
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Nom'),
-                validator: (value) => value!.isEmpty ? 'Entrez un nom' : null,
-              ),
-              TextFormField(
-                controller: _phoneController,
-                decoration: const InputDecoration(labelText: 'Téléphone'),
-                validator: (value) => value!.isEmpty ? 'Entrez un téléphone' : null,
-              ),
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-                validator: (value) => value!.isEmpty ? 'Entrez un email' : null,
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _saveContact,
-                child: const Text('Enregistrer'),
-              ),
-            ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextFormField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    labelText: 'Nom du contact',
+                    hintText: 'Ex: John Doe',
+                    prefixIcon: const Icon(Icons.person_outline),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  validator: (value) => value!.isEmpty ? 'Entrez un nom' : null,
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _phoneController,
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    labelText: 'Téléphone',
+                    hintText: 'Ex: +33 6 12 34 56 78',
+                    prefixIcon: const Icon(Icons.phone_outlined),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  validator: (value) => value!.isEmpty ? 'Entrez un numéro de téléphone' : null,
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    hintText: 'Ex: johndoe@exemple.com',
+                    prefixIcon: const Icon(Icons.email_outlined),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  validator: (value) => value!.isEmpty ? 'Entrez un email' : null,
+                ),
+                const SizedBox(height: 32),
+                ElevatedButton.icon(
+                  onPressed: _saveContact,
+                  icon: const Icon(Icons.save_outlined),
+                  label: Text(
+                    widget.contact == null ? 'Enregistrer le contact' : 'Mettre à jour',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
