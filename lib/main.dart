@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Kytmo - Contacts',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.indigo, // Utilisation d'une couleur plus moderne
         scaffoldBackgroundColor: Colors.grey[50],

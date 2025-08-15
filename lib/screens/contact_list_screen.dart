@@ -31,20 +31,29 @@ class _ContactListScreenState extends State<ContactListScreen> {
 
   Future<void> _loadContacts() async {
     final data = await DatabaseHelper.instance.getContacts();
+
+    // Tri alphabétique par nom
+    data.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
     setState(() {
       _contacts = data;
       _filteredContacts = data;
     });
   }
 
+
   void _filterContacts() {
     final query = _searchController.text.toLowerCase();
     setState(() {
       _filteredContacts = _contacts.where((contact) {
-        return contact.phone.toLowerCase().contains(query);
+        final nameMatch = contact.name.toLowerCase().contains(query);
+        final phoneMatch = contact.phone.toLowerCase().contains(query);
+        final emailMatch = contact.email.toLowerCase().contains(query);
+        return nameMatch || phoneMatch || emailMatch;
       }).toList();
     });
   }
+
 
   void _toggleSearch() {
     setState(() {
@@ -88,6 +97,10 @@ class _ContactListScreenState extends State<ContactListScreen> {
   void _deleteContact(int id) async {
     await DatabaseHelper.instance.deleteContact(id);
     _loadContacts();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Contact supprimé avec succès')),
+    );
   }
 
   void _navigateToForm({Contact? contact}) async {

@@ -43,13 +43,20 @@ class _ContactFormScreenState extends State<ContactFormScreen> {
 
       if (widget.contact == null) {
         await DatabaseHelper.instance.insertContact(contact);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Contact ajouté avec succès')),
+        );
       } else {
         await DatabaseHelper.instance.updateContact(contact);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Contact mis à jour avec succès')),
+        );
       }
 
       Navigator.pop(context);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
